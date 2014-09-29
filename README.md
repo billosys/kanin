@@ -18,7 +18,7 @@ Just add it to your ``rebar.config`` deps:
   {deps, [
     ...
     {kanin, ".*",
-      {git, "git@github.com:YOURNAME/kanin.git", "master"}}
+      {git, "git@github.com:billosys/kanin.git", "master"}}
       ]}.
 ```
 
