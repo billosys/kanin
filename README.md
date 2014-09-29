@@ -1,6 +1,6 @@
 # kanin
 
-<a href="http://aquarius-galuxy.deviantart.com/art/Rabbit-Drawing-176749973"><img src="resources/images/kanin-small.jpg" /></a>
+<a href="http://aquarius-galuxy.deviantart.com/art/Rabbit-Drawing-176749973"><img src="resources/images/kanin-small.png" /></a>
 
 *An LFE Wrapper for the Erlang RabbitMQ (AMQP) Client*
 
