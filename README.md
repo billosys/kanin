@@ -22,13 +22,19 @@ Just add it to your ``rebar.config`` deps:
       ]}.
 ```
 
-And then do the usual:
+And then do:
 
 ```bash
-    $ rebar get-deps
-    $ rebar compile
+    $ make compile
 ```
 
+This will take a little while, as it builds the Erlang RabbitMQ client library
+from source. If you have ``amqp_lib`` on your ``$ERL_LIBS`` path, then you can
+do this instead:
+
+```bash
+	$ make skip-rabbit
+```
 
 ## Usage
 
