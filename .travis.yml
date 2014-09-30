@@ -1,10 +1,10 @@
 language: erlang
 before_script: "make get-lfetool"
-script: "make check"
+script: "make check-travis"
 notifications:
-  #irc: "irc.freenode.org#YOUR-PROJECT-CHANNEL"
+  irc: "irc.freenode.org#bolya"
   recipients:
-    #- YOU@YOUR.DOMAIN
+    - eng@billo.systems
 otp_release:
   - 17.1
   - R16B03
