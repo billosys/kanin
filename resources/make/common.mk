@@ -17,7 +17,7 @@ LFETOOL=$(BIN_DIR)/lfetool
 else
 LFETOOL=lfetool
 endif
-ERL_LIBS=$(shell $(LFETOOL) info erllibs):.:..
+ERL_LIBS=.:..:../kanin:$(shell $(LFETOOL) info erllibs)
 OS := $(shell uname -s)
 ifeq ($(OS),Linux)
         HOST=$(HOSTNAME)
@@ -30,9 +30,13 @@ $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 get-lfetool: $(BIN_DIR)
-	curl -L -o ./lfetool https://raw.github.com/lfe/lfetool/master/lfetool && \
-	chmod 755 ./lfetool && \
-	mv ./lfetool $(BIN_DIR)
+        curl -L -o ./lfetool https://raw.githubusercontent.com/billosys/lfetool/milestone-v1.3/lfetool && \
+        chmod 755 ./lfetool && \
+        mv ./lfetool $(BIN_DIR)
+
+copy-appsrc:
+        @mkdir -p $(OUT_DIR)
+        @cp src/kanin.app.src ebin/kanin.app
 
 get-version:
 	@PATH=$(SCRIPT_PATH) $(LFETOOL) info version
@@ -87,27 +91,27 @@ shell-no-deps: compile-no-deps
 	@echo "Starting an Erlang shell ..."
 	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) erl
 
-check-unit-only:
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests unit
+check-unit-only: clean-eunit
+        @PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests unit
 
-check-integration-only:
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests integration
+check-integration-only: clean-eunit
+        @PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests integration
 
-check-system-only:
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests system
+check-system-only: clean-eunit
+        @PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests system
 
 check-unit-with-deps: get-deps compile compile-tests check-unit-only
-check-unit: clean-eunit compile-no-deps check-unit-only
-check-integration: clean-eunit compile check-integration-only
-check-system: clean-eunit compile check-system-only
-check-all-with-deps: clean-eunit compile check-unit-only \
-	check-integration-only check-system-only clean-eunit
-check-all: get-deps clean-eunit compile-no-deps
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests all
+check-unit: compile-no-deps check-unit-only
+check-integration: compile check-integration-only
+check-system: compile check-system-only
+check-all-with-deps: compile check-unit-only check-integration-only \
+        check-system-only
+check-all: get-deps compile-no-deps clean-eunit
+        @PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests all
 
 check: check-unit-with-deps
 
-check-travis: $(LFETOOL) check
+check-travis: compile compile-tests check-unit-only
 
 push-all:
 	@echo "Pusing code to github ..."
