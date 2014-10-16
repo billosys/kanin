@@ -52,6 +52,17 @@ get-versions:
         -eval "lfe_io:format(\"~p~n\",['exemplar-util':'get-versions'()])." \
         -noshell -s erlang halt
 
+get-erllibs:
+        @echo "ERL_LIBS from lfetool:"
+        @ERL_LIBS=$(ERL_LIBS) $(LFETOOL) info erllibs
+
+get-codepath:
+        @echo "Code path:"
+        @ERL_LIBS=$(ERL_LIBS) \
+        erl -eval "io:format(\"~p~n\", [code:get_path()])." -noshell -s erlang halt
+
+debug: get-erllibs get-codepath
+
 $(EXPM): $(BIN_DIR)
 	@[ -f $(EXPM) ] || \
 	PATH=$(SCRIPT_PATH) lfetool install expm $(BIN_DIR)
