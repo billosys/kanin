@@ -20,46 +20,46 @@ endif
 ERL_LIBS=.:..:../kanin:$(shell $(LFETOOL) info erllibs)
 OS := $(shell uname -s)
 ifeq ($(OS),Linux)
-        HOST=$(HOSTNAME)
+	HOST=$(HOSTNAME)
 endif
 ifeq ($(OS),Darwin)
-        HOST = $(shell scutil --get ComputerName)
+	HOST = $(shell scutil --get ComputerName)
 endif
 
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 get-lfetool: $(BIN_DIR)
-        curl -L -o ./lfetool https://raw.githubusercontent.com/billosys/lfetool/milestone-v1.3/lfetool && \
-        chmod 755 ./lfetool && \
-        mv ./lfetool $(BIN_DIR)
+	curl -L -o ./lfetool https://raw.githubusercontent.com/billosys/lfetool/milestone-v1.3/lfetool && \
+	chmod 755 ./lfetool && \
+	mv ./lfetool $(BIN_DIR)
 
 copy-appsrc:
-        @mkdir -p $(OUT_DIR)
-        @cp src/kanin.app.src ebin/kanin.app
+	@mkdir -p $(OUT_DIR)
+	@cp src/kanin.app.src ebin/kanin.app
 
 get-version:
-        @PATH=$(SCRIPT_PATH) $(LFETOOL) info version
-        @echo "Erlang/OTP, LFE, & library versions:"
-        @ERL_LIBS=$(ERL_LIBS) PATH=$(SCRIPT_PATH) erl \
-        -eval "lfe_io:format(\"~p~n\",[lutil:'get-version'()])." \
-        -noshell -s erlang halt
+	@PATH=$(SCRIPT_PATH) $(LFETOOL) info version
+	@echo "Erlang/OTP, LFE, & library versions:"
+	@ERL_LIBS=$(ERL_LIBS) PATH=$(SCRIPT_PATH) erl \
+	-eval "lfe_io:format(\"~p~n\",[lutil:'get-version'()])." \
+	-noshell -s erlang halt
 
 get-versions:
-        @PATH=$(SCRIPT_PATH) $(LFETOOL) info version
-        @echo "Erlang/OTP, LFE, & library versions:"
-        @ERL_LIBS=$(ERL_LIBS) PATH=$(SCRIPT_PATH) erl \
-        -eval "lfe_io:format(\"~p~n\",['exemplar-util':'get-versions'()])." \
-        -noshell -s erlang halt
+	@PATH=$(SCRIPT_PATH) $(LFETOOL) info version
+	@echo "Erlang/OTP, LFE, & library versions:"
+	@ERL_LIBS=$(ERL_LIBS) PATH=$(SCRIPT_PATH) erl \
+	-eval "lfe_io:format(\"~p~n\",['exemplar-util':'get-versions'()])." \
+	-noshell -s erlang halt
 
 get-erllibs:
-        @echo "ERL_LIBS from lfetool:"
-        @ERL_LIBS=$(ERL_LIBS) $(LFETOOL) info erllibs
+	@echo "ERL_LIBS from lfetool:"
+	@ERL_LIBS=$(ERL_LIBS) $(LFETOOL) info erllibs
 
 get-codepath:
-        @echo "Code path:"
-        @ERL_LIBS=$(ERL_LIBS) \
-        erl -eval "io:format(\"~p~n\", [code:get_path()])." -noshell -s erlang halt
+	@echo "Code path:"
+	@ERL_LIBS=$(ERL_LIBS) \
+	erl -eval "io:format(\"~p~n\", [code:get_path()])." -noshell -s erlang halt
 
 debug: get-erllibs get-codepath
 
@@ -110,22 +110,22 @@ shell-no-deps: compile-no-deps
 	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) erl
 
 check-unit-only: clean-eunit
-        @PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests unit
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests unit
 
 check-integration-only: clean-eunit
-        @PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests integration
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests integration
 
 check-system-only: clean-eunit
-        @PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests system
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests system
 
 check-unit-with-deps: get-deps compile compile-tests check-unit-only
 check-unit: compile-no-deps check-unit-only
 check-integration: compile check-integration-only
 check-system: compile check-system-only
 check-all-with-deps: compile check-unit-only check-integration-only \
-        check-system-only
+	check-system-only
 check-all: get-deps compile-no-deps clean-eunit
-        @PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests all
+	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests all
 
 check: check-unit-with-deps
 
