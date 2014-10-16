@@ -71,7 +71,51 @@ The basic usage of the client follows these broad steps:
 
 ### Programming Model
 
-TBD
+The two currently supported modules in the kanin library are:
+
+ * ``kanin-conn`` (wraps ``amqp_connection``) - used to open connections to a
+   broker and create channels.
+ * ``kanin-chan`` (wraps ``amqp_channel``) - used to send and receive AMQP
+   commands.
+
+Once a connection has been established, and a channel has been opened, an
+LFE application will typically use the ``kanin-chan:call/{2,3}`` and
+``kanin-chan:cast/{2,3}`` functions to achieve most of the things it needs to
+do.
+
+The underlying Erlang AMQP client library is made up of two layers:
+
+ * A high level logical layer that follows the AMQP execution model, and
+ * A low level driver layer that is responsible for providing a physical
+   transport to a broker.
+
+There are two drivers in the client library:
+
+ * The network driver establishes a TCP connection to a protocol compliant AMQP
+   broker and encodes each command according to the specification. To use this
+   driver, start a connection using ``kanin-conn:start/1`` with the parameter
+   set to an ``#amqp_params_network`` record.
+
+ * The direct driver uses native Erlang messaging instead of sending AMQP
+   encoded commands over TCP. This approach avoids the overhead of marshaling
+   commands onto and off the wire. However, the direct driver can only be used
+   in conjunction with the RabbitMQ broker and the client code must be deployed
+   into the same Erlang cluster. To use the direct driver, start a connection
+   using ``kanin-conn:start/1`` with the parameter set to an
+   ``#amqp_params_direct`` record.
+
+At run-time, the Erlang client library re-uses a subset of the functionality
+from the RabbitMQ broker. In order to keep the a client deployment independent
+of RabbitMQ, the Erlang client build process produces an archive containing all
+of the common modules. This archive is then put onto the load path of the client
+application.
+
+For more detailed information on the API, please refer to the reference
+documentation.
+
+Furthermore, the test suite that is part of the source distribution of the
+client library contains many complete examples of how to program against the
+API.
 
 ### AMQP Commands
 
