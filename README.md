@@ -40,9 +40,10 @@ do this instead:
 
 ### Copyright Notice
 
-The following content was copied from the Erlang Client User Guide on the
-RabbitMQ site. The original copyright was in 2014, held by Pivotal Software,
-Inc.
+The following content was copied from
+[the Erlang Client User Guide](https://www.rabbitmq.com/erlang-client-user-guide.html)
+on the [RabbitMQ site](https://www.rabbitmq.com/).
+The original copyright was in 2014, held by Pivotal Software, Inc.
 
 ### The LFE AMQP Client Library
 
