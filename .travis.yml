@@ -1,4 +1,6 @@
 language: erlang
+before_install:
+  - sudo apt-get install xsltproc
 before_script:
   - "make get-lfetool"
   - "make copy-appsrc"
