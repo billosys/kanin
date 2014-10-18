@@ -26,6 +26,7 @@ compile-rabbit: $(RABBIT_DIR)
 	@echo "Building RabbitMQ dependency ..."
 	cd $(RABBIT_DIR) && \
 	make compile
+	mv deps/amqp_lib/deps/rabbit_common-0.0.0 deps/rabbit_common
 	make clean-rabbit-deps
 
 compile-proj:
