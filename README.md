@@ -36,7 +36,18 @@ do this instead:
 	$ make skip-rabbit
 ```
 
+## Documentation
+
+Below, in the "Usage" section, you will find information about using Kanin
+with RabbitMQ in LFE projects.
+
+Also, you may be interested in the [Kanin tutorials](./doc/tutorials.md), which
+have been translated from the official RabbitMQ docs for Python and Erlang.
+
+
+
 ## Usage
+
 
 ### Copyright Notice
 
@@ -44,6 +55,7 @@ The following content was copied from
 [the Erlang Client User Guide](https://www.rabbitmq.com/erlang-client-user-guide.html)
 on the [RabbitMQ site](https://www.rabbitmq.com/).
 The original copyright was in 2014, held by Pivotal Software, Inc.
+
 
 ### The LFE AMQP Client Library
 
@@ -117,65 +129,89 @@ Furthermore, the test suite that is part of the source distribution of the
 client library contains many complete examples of how to program against the
 API.
 
+
 ### AMQP Commands
 
-TBD
+The general mechanism of interacting with the broker is to send and receive AMQP
+commands that are defined in the protocol documentation. During build process,
+the machine readable version of the AMQP specification is used to auto-generate
+Erlang records for each command. The code generation process also defines
+sensible default values for each command. Using default values allows the
+programmer to write terser code - it is only necessary to override a field if
+you require non-default behaviour. The definition of each command can be
+consulted in the rabbit_framing.hrl header file. For example, when using the
+#'exchange.declare'{} command, specifying the following:
+
 
 ### Including Header Files
 
 TBD
 
+
 ### Connecting to a Broker
 
 TBD
+
 
 ### Connecting To A Broker with AMQP URIs
 
 TBD
 
+
 ### Creating Channels
 
 TBD
+
 
 ### Managing Exchanges and Queues
 
 TBD
 
+
 ### Sending Messages
 
 TBD
+
 
 ### Receiving Messages
 
 TBD
 
+
 ### Subscribing to Queues
 
 TBD
+
 
 ### Subscribing Internals
 
 TBD
 
+
 ### Closing Channels and the Connection
 
 TBD
+
 
 ### Complete Example
 
 TBD
 
+
 ### Client Deployment
 
 TBD
+
 
 ### Egress Flow Control
 
 TBD
 
+
 ### Ingress Flow Control
 
 TBD
+
 
 ### Handling Returned Messages
 
