@@ -233,8 +233,8 @@ The complete code for the module that encapsulates this logic is below:
 #### Putting It Together
 
 You should already have the "sending" code loaded up in a termainal window.
-Open another one (be sure you are in the previously created ``kanin-tutorials``
-directory created), and Start up the REPL:
+Open another one (be sure you are in the previously-created ``kanin-tutorials``
+directory), and Start up the REPL:
 
 ```bash
 $ make repl-no-deps
