@@ -134,18 +134,49 @@ API.
 
 The general mechanism of interacting with the broker is to send and receive AMQP
 commands that are defined in the protocol documentation. During build process,
-the machine readable version of the AMQP specification is used to auto-generate
+the machine-readable version of the AMQP specification is used to auto-generate
 Erlang records for each command. The code generation process also defines
 sensible default values for each command. Using default values allows the
 programmer to write terser code - it is only necessary to override a field if
 you require non-default behaviour. The definition of each command can be
-consulted in the rabbit_framing.hrl header file. For example, when using the
-#'exchange.declare'{} command, specifying the following:
+consulted in the ``include/rabbit-framing.lfe`` header file. For example,
+when using the ``(make-exchange.declare ...)`` record-creating macro,
+specifying the following:
 
+```cl
+(make-exchange.declare exchange (list_to_binary "my_exchange"))
+```
+
+is equivalent to this:
+
+```cl
+(make-exchange.declare
+  exchange (list_to_binary "my_exchange")
+  ticket 0
+  type (list_to_binary "direct")
+  passive 'false
+  durable 'false
+  auto_delete 'false
+  internal 'false
+  nowait 'false
+  arguments '())
+```
 
 ### Including Header Files
 
-TBD
+The LFE client uses a number of record definitions which you will encounter
+in this guide. These records fall into two broad categories:
+
+* Auto-generated AMQP command definitions from the machine readable version of
+  the specification
+* Definitions of data structures that are commonly used throughout the client
+
+To gain access to these records, you need to include the ``amqp-client.lfe``
+file in every module that uses the Erlang client:
+
+```cl
+(include-lib "kanin/include/amqp-client.lfe")
+```
 
 
 ### Connecting to a Broker
