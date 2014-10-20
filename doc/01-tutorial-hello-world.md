@@ -211,7 +211,8 @@ The complete code for the module that encapsulates this logic is below:
     (io:format "[*] Waiting for messages. To exit press CTRL+C~n")
     ;; subscribe the receive funtion to the queue
     (kanin-chan:subscribe channel consumer subscriber)
-    ;;
+    ;; verify that the 'receive' function gets a successful result from
+    ;; the previous (kanin-chan:subscribe ...) call
     (receive
       ((match-basic.consume_ok)
         'ok))
@@ -219,9 +220,12 @@ The complete code for the module that encapsulates this logic is below:
     (loop channel)))
 
 (defun loop (channel)
+  ;; listen for a message that is a 2-tuple of two records: a basic.deliver
+  ;; one, and an amqp_msg one
   (receive
     ((tuple (match-basic.deliver) (match-amqp_msg payload body))
       (io:format "[x] Received: ~p~n" `(,body))
+      ;; restart the loop to listen for the next message
       (loop channel))))
 ```
 
