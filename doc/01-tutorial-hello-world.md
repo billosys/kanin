@@ -252,7 +252,7 @@ loop:
 [*] Waiting for messages. To exit press CTRL+C
 ```
 
-Switch back over to your "send" terminal, and fire off four calls of the
+Switch back over to your "sending" terminal, and fire off four calls of the
 ``send`` function:
 
 ```cl
@@ -271,7 +271,7 @@ ok
 >
 ```
 
-Switch back over to your "receive" terminal, and you should see four messages
+Switch back over to your "receiving" terminal, and you should see four messages
 indicating proper receipt:
 
 ```cl
