@@ -74,7 +74,7 @@ schedule tasks to our work queue, so let's name it ``kt-new-task.lfe``:
     (kanin-conn:close connection)))
 ```
 
-Our old ``kt-receiving.lfe`` script also requires some changes: it needs to
+Our old ``kt-receiving.lfe`` module also requires some changes: it needs to
 fake a second of work for every dot in the message body. It will pop messages
 from the queue and perform the task, so let's call it ``kt-worker.lfe``:
 
