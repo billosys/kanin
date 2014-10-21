@@ -41,12 +41,6 @@ schedule tasks to our work queue, so let's name it ``kt-new-task.lfe``:
 
 (include-lib "kanin/include/amqp-client.lfe")
 
-(defun make-message
-  (('())
-    "Hello, world!")
-  ((data)
-    data))
-
 (defun send ()
   (send '()))
 
@@ -72,6 +66,12 @@ schedule tasks to our work queue, so let's name it ``kt-new-task.lfe``:
     (io:format "[x] Sent message '~p'~n" `(,payload))
     (kanin-chan:close channel)
     (kanin-conn:close connection)))
+
+(defun make-message
+  (('())
+    "Hello, world!")
+  ((data)
+    data))
 ```
 
 Our old ``kt-receiving.lfe`` module also requires some changes: it needs to
@@ -105,24 +105,27 @@ from the queue and perform the task, so let's call it ``kt-worker.lfe``:
         'ok))
     (loop channel)))
 
+(defun loop (channel)
+  (receive
+    ((tuple (match-basic.deliver delivery_tag tag)
+            (match-amqp_msg payload body))
+      (io:format "[x] Received: ~p~n" `(,body))
+      (do-work body)
+      (io:format "[x] Done.~n")
+      (kanin-chan:cast channel (make-basic.ack delivery_tag tag))
+      (loop channel))))
+
 (defun get-dot-count (data)
   (length
     (list-comp
       ((<- char (binary_to_list data)) (== char #\.))
       char)))
 
-(defun loop (channel)
-  (receive
-    ((tuple (match-basic.deliver delivery_tag tag)
-            (match-amqp_msg payload body))
-      (io:format "[x] Received: ~p~n" `(,body))
-      (let ((dots (get-dot-count body)))
+(defun do-work (body)
+  (let ((dots (get-dot-count body)))
         (receive
           (after (* dots 1000)
-            'ok))
-        (io:format "[x] Done.~n"))
-      (kanin-chan:cast channel (make-basic.ack delivery_tag tag))
-      (loop channel))))
+            'ok))))
 ```
 
 
