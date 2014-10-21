@@ -42,20 +42,22 @@ schedule tasks to our work queue, so let's name it ``kt-new-task.lfe``:
 (include-lib "kanin/include/amqp-client.lfe")
 
 (defun make-message
-  ('()
-    (list_to_binary "Hello, world!"))
-  (data
-    (list_to_binary
-      (string:join data " "))))
+  (('())
+    "Hello, world!")
+  ((data)
+    data))
 
-(defun send (args)
+(defun send ()
+  (send '()))
+
+(defun send (data)
   (let* ((net-opts (make-amqp_params_network host "localhost"))
          (`#(ok ,connection) (kanin-conn:start net-opts))
          (`#(ok ,channel) (kanin-conn:open-channel connection))
          (queue-name "task-queue")
          (routing-key "task-queue")
          (exchange-name "")
-         (payload (make-message args))
+         (payload (make-message data))
          (queue (make-queue.declare
                   queue (list_to_binary queue-name)
                   durable 'true))
@@ -87,15 +89,16 @@ from the queue and perform the task, so let's call it ``kt-worker.lfe``:
          (`#(ok ,connection) (kanin-conn:start net-opts))
          (`#(ok ,channel) (kanin-conn:open-channel connection))
          (queue-name "task-queue")
-         (payload "Hello, world!")
          (queue (make-queue.declare
                   queue (list_to_binary queue-name)
                   durable 'true))
+         (qos (make-basic.qos prefetch_count 1))
          (consumer (make-basic.consume
                      queue (list_to_binary queue-name)))
          (subscriber (self)))
-    (kanin-chan:call channel (make-basic.qos prefetch_count 1))
+    (kanin-chan:call channel queue)
     (io:format "[*] Waiting for messages. To exit press CTRL+C~n")
+    (kanin-chan:call channel qos)
     (kanin-chan:subscribe channel consumer subscriber)
     (receive
       ((match-basic.consume_ok)
