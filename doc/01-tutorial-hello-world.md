@@ -281,6 +281,9 @@ indicating proper receipt:
 [x] Received: <<"Hello, world!">>
 ```
 
+
+### Next Up
+
 That's it for the "Hello World" tutorial. The next tutorial is one on
 [Work Queues](./02-tutorial-work-queues.md). Or you can return to the
 [tutorials index](./tutorials.md).
