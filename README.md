@@ -7,7 +7,9 @@
 
 ## Introduction
 
-Add content to me here!
+The kanin library is a wrapper for various modules in the Erlang AMQP client
+library. kanin was created in order to not only provide a less verbose AMQP
+client library for LFE hackers, but one that was also more Lispy.
 
 
 ## Installation
@@ -44,6 +46,17 @@ with RabbitMQ in LFE projects.
 Also, you may be interested in the [Kanin tutorials](./doc/tutorials.md), which
 have been translated from the official RabbitMQ docs for Python and Erlang.
 
+
+## Supported Modules
+
+The following ``amqp_*`` modules have been included in kaini:
+ * ``amqp_channel`` -> ``kanin-chan``
+ * ``amqp_connection`` -> ``kanin-conn``
+ * ``amqp_uri`` -> ``kanin-uri``
+
+If your favorite ``amqp_*`` module is not among those, feel free to submit a
+new ticket requesting the addition of your desired module(s) or submit a
+pull request with the desired inclusion added.
 
 
 ## Usage
@@ -258,7 +271,42 @@ values:
 
 ### Connecting To A Broker with AMQP URIs
 
-TBD
+Instead of working the ``(make-amqp_params_*)`` records directly, [AMQP
+URIs](https://www.rabbitmq.com/uri-spec.html) may be used. The
+``(kanin-uri:parse/1)`` function is provided for this purpose. It parses an URI
+and returns the equivalent ``amqp_params_*`` record. Diverging from the spec,
+if the hostname is omitted, the connection is assumed to be direct and an
+``amqp_params_direct`` record is returned. In addition to the standard host,
+port, user, password and vhost parameters, extra parameters may be specified via
+the query string (e.g. ``"?heartbeat=5"``).
+
+AMQP URIs are defined with the following ABNF rules:
+
+```
+amqp_URI       = "amqp://" amqp_authority [ "/" vhost ] [ "?" query ]
+amqp_authority = [ amqp_userinfo "@" ] host [ ":" port ]
+amqp_userinfo  = username [ ":" password ]
+username       = *( unreserved / pct-encoded / sub-delims )
+password       = *( unreserved / pct-encoded / sub-delims )
+vhost          = segment
+```
+
+Here are some examples:
+
+| Parameter                                      | Username | Password | Host    | Port  | Vhost   |
+|------------------------------------------------|----------|----------|---------|-------|---------|
+| amqp://alice:secret@host:10000/vhost           | "alice"  | "secret" | "host"  | 10000 | "vhost" |
+| amqp://bo%62:%73ecret@h%6fst:10000/%76host     | "bob"    | "secret" | "host"  | 10000 | "vhost" |
+| amqp://                                        |          |          |         |       |         |
+| amqp://:@/                                     | ""       | ""       |         |       | ""      |
+| amqp://carol@                                  | "carol"  |          |         |       |         |
+| amqp://dave:secret@                            | "dave"   | "secret" |         |       |         |
+| amqp://host                                    |          |          | "host"  |       |         |
+| amqp://:10000                                  |          |          |         | 10000 |         |
+| amqp:///vhost                                  |          |          |         |       | "vhost" |
+| amqp://host/                                   |          |          | "host"  |       | ""      |
+| amqp://host/%2f                                |          |          | "host"  |       | "/"     |
+| amqp://[::1]                                   |          |          | "[::1]" |       |         |
 
 
 ### Creating Channels
