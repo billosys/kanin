@@ -185,7 +185,7 @@ The ``kanin-conn`` module is used to start a connection to the broker:
 
 ```cl
 ...
-    (let* ((net-opts (make-amqp_params_network host "localhost"))
+  (let* ((net-opts (make-amqp_params_network host "localhost"))
          (`#(ok ,connection) (kanin-conn:start net-opts))
          ...))
 ...
