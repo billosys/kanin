@@ -181,7 +181,79 @@ file in every module that uses the Erlang client:
 
 ### Connecting to a Broker
 
-TBD
+The ``kanin-conn`` module is used to start a connection to the broker:
+
+```cl
+...
+    (let* ((net-opts (make-amqp_params_network host "localhost"))
+         (`#(ok ,connection) (kanin-conn:start net-opts))
+         ...))
+...
+```
+
+This function returns ``#(ok ,connection)``, where ``connection`` is the pid of a
+process that maintains a permanent connection to the broker.
+
+In case of an error, the above call returns ``#(error ,error)``.
+
+The example above has just ``"localhost"`` as a parameter. However, there will
+often be many more than that.
+
+An AMQP broker contains objects organised into groups called virtual hosts. The
+concept of virtual hosts gives an administrator the facility to partition a
+broker resource into separate domains and restrict access to the objects
+contained within these groups. AMQP connections require client authentication
+and the authorisation to access specific virtual hosts.
+
+The ``(make-amqp_params_network)`` record macro sets the following default
+values:
+
+| Parameter         |  Default Value  |
+|-------------------|-----------------|
+| username          |  guest          |
+| password          |  guest          |
+| virtual_host      |  /              |
+| host              |  localhost      |
+| post              |  5672           |
+| channel_max       |  0              |
+| frame_max         |  0              |
+| heartbeat         |  0              |
+| ssl_options       |  none           |
+| auth_mechanisms   |  ``(list #'amqp_auth_mechanisms:plain/3 #'amqp_auth_mechanisms:amqplain/3)`` |
+| client_properties |  ``'()``        |
+
+These values are only the defaults that will work with an out of the box broker
+running on the same host. If the broker or the environment has been configured
+differently, these values can be overridden to match the actual deployment
+scenario.
+
+SSL options can also be specified globally using the ``ssl_options`` environment
+key for the ``amqp-client`` application. They will be merged with the SSL
+parameters from the URI (the latter will take precedence).
+
+If a client wishes to run inside the same Erlang cluster as the RabbitMQ broker,
+it can start a direct connection that optimises away the AMQP codec. To start a
+direct connection, use ``kanin-conn:start/1`` with the parameter set to an
+``(make-amqp_params_direct)`` record.
+
+Providing a username and password is optional, since the direct client is
+considered trusted anyway. If a username and password are provided then they
+will be checked and made available to authentication backends. If a username is
+supplied, but no password, then the user is considered trusted and logged in
+unconditionally. If neither username nor password are provided then the
+connection will be considered to be from a "dummy" user which can connect to any
+virtual host and issue any AMQP command.
+
+The ``(make-amqp_params_direct)`` record macro sets the following default
+values:
+
+| Parameter         |  Default Value  |
+|-------------------|-----------------|
+| username          |  guest          |
+| password          |  guest          |
+| virtual_host      |  /              |
+| node              |  ``(node)``     |
+| client_properties |  ``'()``        |
 
 
 ### Connecting To A Broker with AMQP URIs
