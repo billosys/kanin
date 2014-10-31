@@ -10,7 +10,11 @@
   %% All modules used by the application.
   {modules,
    [
-    'kanin'
+    'kanin',
+    'kanin-chan',
+    'kanin-conn',
+    'kanin-uri',
+    'kanin-util'
    ]},
 
   %% All of the registered names the application uses. This can be ignored.
