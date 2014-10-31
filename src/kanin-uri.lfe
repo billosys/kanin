@@ -14,7 +14,12 @@
   (parse uri #b("/")))
 
 (defun parse (uri vhost)
-  (let ((`#(ok ,raw-opts) (amqp_uri:parse uri vhost))
-        (auth-mechs (list #'amqp_auth_mechanisms:plain/3
-                          #'amqp_auth_mechanisms:amqplain/3)))
+  (parse
+    uri
+    vhost
+    (list #'amqp_auth_mechanisms:plain/3
+          #'amqp_auth_mechanisms:amqplain/3)))
+
+(defun parse (uri vhost auth-mechs)
+  (let ((`#(ok ,raw-opts) (amqp_uri:parse uri vhost)))
     (set-amqp_params_network-auth_mechanisms raw-opts auth-mechs)))
