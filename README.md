@@ -308,6 +308,16 @@ Here are some examples:
 | amqp://host/%2f                                |          |          | "host"  |       | "/"     |
 | amqp://[::1]                                   |          |          | "[::1]" |       |         |
 
+If you prefer, you can use connection URIs in Kanin. Updating the previous
+example:
+
+```cl
+...
+  (let* ((net-opts (kanin-uri:parse "amqp://localhost"))
+         (`#(ok ,connection) (kanin-conn:start net-opts))
+         ...))
+```
+
 
 ### Creating Channels
 
