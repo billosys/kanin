@@ -33,7 +33,9 @@ seconds.
 
 We will slightly modify the ``kt-sending.lfe`` code from our previous example,
 to allow arbitrary messages to be sent from the command line. This program will
-schedule tasks to our work queue, so let's name it ``kt-new-task.lfe``:
+schedule tasks to our work queue, so let's name it ``kt-new-task.lfe``. Also,
+note that we'll use the ``kanin-uri`` module to parse a connection string
+this time, instead of creating a record directly.
 
 ```cl
 (defmodule kt-new-task
@@ -45,7 +47,7 @@ schedule tasks to our work queue, so let's name it ``kt-new-task.lfe``:
   (send '()))
 
 (defun send (data)
-  (let* ((net-opts (make-amqp_params_network host "localhost"))
+  (let* ((net-opts (kanin-uri:parse "amqp://localhost"))
          (`#(ok ,connection) (kanin-conn:start net-opts))
          (`#(ok ,channel) (kanin-conn:open-channel connection))
          (queue-name "task-queue")
@@ -85,7 +87,7 @@ from the queue and perform the task, so let's call it ``kt-worker.lfe``:
 (include-lib "kanin/include/amqp-client.lfe")
 
 (defun receive ()
-  (let* ((net-opts (make-amqp_params_network host "localhost"))
+  (let* ((net-opts (kanin-uri:parse "amqp://localhost"))
          (`#(ok ,connection) (kanin-conn:start net-opts))
          (`#(ok ,channel) (kanin-conn:open-channel connection))
          (queue-name "task-queue")
