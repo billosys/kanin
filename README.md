@@ -47,7 +47,8 @@ $ bash ./lfetool install
 
 ## Installation [&#x219F;](#table-of-contents)
 
-Just add it to your ``rebar.config`` deps:
+To pull in kanin as part of your project, just add it to your ``rebar.config``
+deps:
 
 ```erlang
   {deps, [
