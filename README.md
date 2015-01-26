@@ -4,15 +4,32 @@
 
 *An LFE Wrapper for the Erlang RabbitMQ (AMQP) Client*
 
+## Table of Contents
 
-## Introduction
+* [Introduction](#introduction-)
+* [Dependencies](#dependencies-)
+* [Installation](#installation-)
+* [Documentation](#documentation-)
+* [Supported RabbitMQ Modules](#supported-modules-)
+* [Usage](#usage-)
+  * [Copyright Notice](#copyright-notice-)
+  * [The LFE AMQP Client Library](#the-lfe-amqp-client-library-)
+  * [Programming Model](#programming-model-)
+  * [AMQP Commands](#amqp-commands-)
+  * [Including Header Files](#including-header-files-)
+  * [Connecting to a Broker](#connecting-to-a-broker-)
+  * [Connecting To A Broker with AMQP URIs](#connecting-to-a-broker-with-amqp-uris-)
+
+## Introduction [&#x219F;](#table-of-contents)
 
 The kanin library is a wrapper for various modules in the Erlang AMQP client
 library. kanin was created in order to not only provide a less verbose AMQP
 client library for LFE hackers, but one that was also more Lispy.
 
 
-## Installation
+## Dependencies [&#x219F;](#table-of-contents)
+
+## Installation [&#x219F;](#table-of-contents)
 
 Just add it to your ``rebar.config`` deps:
 
@@ -38,7 +55,7 @@ do this instead:
     $ make skip-rabbit
 ```
 
-## Documentation
+## Documentation [&#x219F;](#table-of-contents)
 
 Below, in the "Usage" section, you will find information about using Kanin
 with RabbitMQ in LFE projects.
@@ -48,7 +65,7 @@ tutorials](http://billo.gitbooks.io/lfe-rabbitmq-tutorials/), which
 have been translated into LFE from the official RabbitMQ docs for Python and Erlang.
 
 
-## Supported Modules
+## Supported Modules [&#x219F;](#table-of-contents)
 
 The following ``amqp_*`` modules have been included in kanin:
  * ``amqp_channel`` -> ``kanin-chan``
@@ -60,10 +77,10 @@ new ticket requesting the addition of your desired module(s) or submit a
 pull request with the desired inclusion added.
 
 
-## Usage
+## Usage [&#x219F;](#table-of-contents)
 
 
-### Copyright Notice
+### Copyright Notice [&#x219F;](#table-of-contents)
 
 The following content was copied from
 [the Erlang Client User Guide](https://www.rabbitmq.com/erlang-client-user-guide.html)
@@ -71,7 +88,7 @@ on the [RabbitMQ site](https://www.rabbitmq.com/).
 The original copyright was in 2014, held by Pivotal Software, Inc.
 
 
-### The LFE AMQP Client Library
+### The LFE AMQP Client Library [&#x219F;](#table-of-contents)
 
 The AMQP client provides an Erlang interface to compliant AMQP brokers. The
 client follows the AMQP execution model and implements the wire level
@@ -95,14 +112,7 @@ The basic usage of the client follows these broad steps:
  * When no longer required, close the channel and the connection
 
 
-### Programming Model
-
-The two currently supported modules in the kanin library are:
-
- * ``kanin-conn`` (wraps ``amqp_connection``) - used to open connections to a
-   broker and create channels.
- * ``kanin-chan`` (wraps ``amqp_channel``) - used to send and receive AMQP
-   commands.
+### Programming Model [&#x219F;](#table-of-contents)
 
 Once a connection has been established, and a channel has been opened, an
 LFE application will typically use the ``kanin-chan:call/{2,3}`` and
@@ -144,7 +154,7 @@ client library contains many complete examples of how to program against the
 API.
 
 
-### AMQP Commands
+### AMQP Commands [&#x219F;](#table-of-contents)
 
 The general mechanism of interacting with the broker is to send and receive AMQP
 commands that are defined in the protocol documentation. During build process,
@@ -176,7 +186,7 @@ is equivalent to this:
   arguments '())
 ```
 
-### Including Header Files
+### Including Header Files [&#x219F;](#table-of-contents)
 
 The LFE client uses a number of record definitions which you will encounter
 in this guide. These records fall into two broad categories:
@@ -193,7 +203,7 @@ file in every module that uses the Erlang client:
 ```
 
 
-### Connecting to a Broker
+### Connecting to a Broker [&#x219F;](#table-of-contents)
 
 The ``kanin-conn`` module is used to start a connection to the broker:
 
@@ -270,7 +280,7 @@ values:
 | client_properties |  ``'()``        |
 
 
-### Connecting To A Broker with AMQP URIs
+### Connecting To A Broker with AMQP URIs [&#x219F;](#table-of-contents)
 
 Instead of working the ``(make-amqp_params_*)`` records directly, [AMQP
 URIs](https://www.rabbitmq.com/uri-spec.html) may be used. The
@@ -320,62 +330,62 @@ example:
 ```
 
 
-### Creating Channels
+### Creating Channels [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Managing Exchanges and Queues
+### Managing Exchanges and Queues [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Sending Messages
+### Sending Messages [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Receiving Messages
+### Receiving Messages [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Subscribing to Queues
+### Subscribing to Queues [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Subscribing Internals
+### Subscribing Internals [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Closing Channels and the Connection
+### Closing Channels and the Connection [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Complete Example
+### Complete Example [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Client Deployment
+### Client Deployment [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Egress Flow Control
+### Egress Flow Control [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Ingress Flow Control
+### Ingress Flow Control [&#x219F;](#table-of-contents)
 
 TBD
 
 
-### Handling Returned Messages
+### Handling Returned Messages [&#x219F;](#table-of-contents)
 
 TBD
 
