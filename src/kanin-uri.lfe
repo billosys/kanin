@@ -2,7 +2,8 @@
   (export all))
 
 (include-lib "kanin/include/kanin-uri-macros.lfe")
-(include-lib "kanin/include/amqp-client.lfe")
+(include-lib "amqp_lib/include/amqp_client.hrl")
+;;(include-lib "kanin/include/amqp-client.lfe")
 
 ;; XXX These two functions should be pulled in via the macro instead of being
 ;; defined here. However, there seems to be an issue with the auth mechanism
@@ -21,5 +22,6 @@
           #'amqp_auth_mechanisms:amqplain/3)))
 
 (defun parse (uri vhost auth-mechs)
-  (let ((`#(ok ,raw-opts) (amqp_uri:parse uri vhost)))
-    (set-amqp_params_network-auth_mechanisms raw-opts auth-mechs)))
+  (let* ((`#(,status ,raw-opts) (amqp_uri:parse uri vhost))
+         (opts (set-amqp_params_network-auth_mechanisms raw-opts auth-mechs)))
+    `#(,status ,opts)))

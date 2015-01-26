@@ -35,7 +35,7 @@ from source. If you have ``amqp_lib`` on your ``$ERL_LIBS`` path, then you can
 do this instead:
 
 ```bash
-	$ make skip-rabbit
+    $ make skip-rabbit
 ```
 
 ## Documentation
@@ -43,8 +43,9 @@ do this instead:
 Below, in the "Usage" section, you will find information about using Kanin
 with RabbitMQ in LFE projects.
 
-Also, you may be interested in the [Kanin tutorials](./doc/tutorials.md), which
-have been translated from the official RabbitMQ docs for Python and Erlang.
+Also, you may be interested in the [Kanin
+tutorials](http://billo.gitbooks.io/lfe-rabbitmq-tutorials/), which
+have been translated into LFE from the official RabbitMQ docs for Python and Erlang.
 
 
 ## Supported Modules

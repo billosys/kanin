@@ -6,8 +6,8 @@
 ;; has). Until that gets fixed, we're using a modified amqp-client that
 ;; works around this issue.
 ;;
-;; (include-lib "amqp_lib/include/amqp_client.hrl")
-(include-lib "kanin/include/amqp-client.lfe")
+(include-lib "amqp_lib/include/amqp_client.hrl")
+;; (include-lib "kanin/include/amqp-client.lfe")
 
 (defun noop ()
   'noop)
