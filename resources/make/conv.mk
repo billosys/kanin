@@ -1,2 +1,3 @@
 push:
-	git commit -a && git push --all
+	git push origin master && \
+	git push upstream master
