@@ -6,7 +6,6 @@ endif
 LIB = $(PROJECT)
 DEPS_DIR = ./deps
 BIN_DIR = ./bin
-EXPM = $(BIN_DIR)/expm
 SOURCE_DIR = ./src
 OUT_DIR = ./ebin
 TEST_DIR = ./test
@@ -30,7 +29,7 @@ $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 get-lfetool: $(BIN_DIR)
-	curl -L -o ./lfetool https://raw.githubusercontent.com/billosys/lfetool/milestone-v1.3/lfetool && \
+	curl -L -o ./lfetool https://raw.githubusercontent.com/lfe/lfetool/dev-v1/lfetool && \
 	chmod 755 ./lfetool && \
 	mv ./lfetool $(BIN_DIR)
 
@@ -44,13 +43,6 @@ get-version:
 	-eval "lfe_io:format(\"~p~n\",['kanin-util':'get-versions'()])." \
 	-noshell -s erlang halt
 
-get-versions:
-	@PATH=$(SCRIPT_PATH) $(LFETOOL) info version
-	@echo "Erlang/OTP, LFE, & library versions:"
-	@ERL_LIBS=$(ERL_LIBS) PATH=$(SCRIPT_PATH) erl \
-	-eval "lfe_io:format(\"~p~n\",['exemplar-util':'get-versions'()])." \
-	-noshell -s erlang halt
-
 get-erllibs:
 	@echo "ERL_LIBS from lfetool:"
 	@ERL_LIBS=$(ERL_LIBS) $(LFETOOL) info erllibs
@@ -61,10 +53,6 @@ get-codepath:
 	erl -eval "io:format(\"~p~n\", [code:get_path()])." -noshell -s erlang halt
 
 debug: get-erllibs get-codepath
-
-$(EXPM): $(BIN_DIR)
-	@[ -f $(EXPM) ] || \
-	PATH=$(SCRIPT_PATH) lfetool install expm $(BIN_DIR)
 
 get-deps:
 	@echo "Getting dependencies ..."
@@ -141,13 +129,3 @@ install: compile
 	@echo "Installing kanin ..."
 	@PATH=$(SCRIPT_PATH) lfetool install lfe
 
-upload: $(EXPM) get-version
-	@echo "Preparing to upload kanin ..."
-	@echo
-	@echo "Package file:"
-	@echo
-	@cat package.exs
-	@echo
-	@echo "Continue with upload? "
-	@read
-	$(EXPM) publish
