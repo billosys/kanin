@@ -29,6 +29,22 @@ client library for LFE hackers, but one that was also more Lispy.
 
 ## Dependencies [&#x219F;](#table-of-contents)
 
+As of version 0.3.0 of kanin, the latest version of lfetool is required
+(currently lfetool 1.5.0-dev). This is due to the fact that kanin has started
+using the ``lfe.config`` file to override rebar dependencies. kanin uses the
+latest development release of LFE in order to support including various
+RabbitMQ Erlang header files, and since other dependencies use the latest
+release of LFE (0.9.0), we needed to override rebar's behaviour (see the rebar
+bug [#170](https://github.com/rebar/rebar/issues/170)).
+
+To install the latest development version of lfetool:
+
+```bash
+$ curl -L -o ./lfetool https://raw.github.com/lfe/lfetool/dev-v1/lfetool
+$ bash ./lfetool install
+```
+
+
 ## Installation [&#x219F;](#table-of-contents)
 
 Just add it to your ``rebar.config`` deps:
