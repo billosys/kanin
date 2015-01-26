@@ -2,8 +2,8 @@
   (export all))
 
 (defun get-kanin-version ()
-  (lutil:get-app-src-version "src/kanin.app.src"))
+  (lutil:get-app-version 'kanin))
 
 (defun get-versions ()
-  (++ (lutil:get-version)
+  (++ (lutil:get-versions)
       `(#(kanin ,(get-kanin-version)))))

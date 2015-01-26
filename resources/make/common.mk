@@ -39,10 +39,9 @@ copy-appsrc:
 	@cp src/kanin.app.src ebin/kanin.app
 
 get-version:
-	@PATH=$(SCRIPT_PATH) $(LFETOOL) info version
 	@echo "Erlang/OTP, LFE, & library versions:"
 	@ERL_LIBS=$(ERL_LIBS) PATH=$(SCRIPT_PATH) erl \
-	-eval "lfe_io:format(\"~p~n\",[lutil:'get-version'()])." \
+	-eval "lfe_io:format(\"~p~n\",['kanin-util':'get-versions'()])." \
 	-noshell -s erlang halt
 
 get-versions:
