@@ -50,7 +50,7 @@ have been translated into LFE from the official RabbitMQ docs for Python and Erl
 
 ## Supported Modules
 
-The following ``amqp_*`` modules have been included in kaini:
+The following ``amqp_*`` modules have been included in kanin:
  * ``amqp_channel`` -> ``kanin-chan``
  * ``amqp_connection`` -> ``kanin-conn``
  * ``amqp_uri`` -> ``kanin-uri``
