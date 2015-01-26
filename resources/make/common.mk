@@ -129,3 +129,6 @@ install: compile
 	@echo "Installing kanin ..."
 	@PATH=$(SCRIPT_PATH) lfetool install lfe
 
+push:
+	git push origin master && \
+	git push upstream master
