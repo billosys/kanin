@@ -11,6 +11,7 @@ notifications:
   recipients:
     - eng@billo.systems
 otp_release:
+  - 17.3
   - 17.1
   - R16B03
   - R15B03
